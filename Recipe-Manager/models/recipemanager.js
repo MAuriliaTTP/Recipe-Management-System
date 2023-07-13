@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   RecipeManager.init({
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    ingredients: DataTypes.STRING,
-    instructions: DataTypes.STRING
+    description: DataTypes.TEXT,
+    ingredients: DataTypes.TEXT,
+    instructions: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'RecipeManager',

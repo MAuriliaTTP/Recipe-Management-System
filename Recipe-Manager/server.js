@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { query } = require('./database');
 const { RecipeManager } = require('./models');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 require("dotenv").config();
+app.use(express.json())
+
 
 // Retrieve a list of all recipes
 app.get("/recipeManager", async (req, res) => {
@@ -35,7 +36,9 @@ app.get("/recipeManager/:id", async (req, res) => {
 
 // Create a new recipe
 app.post("/recipeManager", async (req, res) => {
-  const { title, description, ingredients, instructions } = req.body;
+  // const { title, description, ingredients, instructions } = req.body;
+
+  console.log(req.body)
   try {
     const recipe = await RecipeManager.create(req.body);
     res.status(201).json(recipe);
@@ -43,6 +46,7 @@ app.post("/recipeManager", async (req, res) => {
     if (error.name === 'SequelizeValidationError') {
       res.status(400).json({ error: error.message });
     } else {
+      console.error(error);
       res.status(500).json({ error: 'Internal server error' });
     }
   }
